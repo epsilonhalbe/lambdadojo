@@ -31,17 +31,29 @@ qcProps = testGroup "(checked by QuickCheck)"
 unitTests = testGroup "Unit tests"
   [ testGroup "[POST]: 'name' -> 'msg' == POST 'name' msg"
     [ testCase "intended" $
-      parseOnly command "Alice -> I love the weather today" @?= (Right $ POST $ Message "Alice" "I love the weather today" undefined)
+      parseOnly command "Alice -> I love the weather today" @?= (Right $ POST $ Message "Alice" "I love the weather today")
     , testCase "many space" $
-      parseOnly command "Alice   ->   I love the weather today" @?= (Right $ POST $ Message "Alice" "I love the weather today" undefined)
+      parseOnly command "Alice   ->   I love the weather today" @?= (Right $ POST $ Message "Alice" "I love the weather today")
     , testCase "no space" $
-      parseOnly command "Alice->I love the weather today" @?= (Right $ POST $ Message "Alice" "I love the weather today" undefined)
+      parseOnly command "Alice->I love the weather today" @?= (Right $ POST $ Message "Alice" "I love the weather today")
     ]
   , testGroup "[READ]: reading 'name' == READ 'name'"
     [ testCase "intended" $
       parseOnly command "Alice" @?= (Right $ READ "Alice")
     , testCase "many space" $
       parseOnly command "   Alice   " @?= (Right $ READ "Alice")
+    ]
+  , testGroup "[FOLLOW]: 'Alice' follows 'Bob' == FOLLOW Alice Bob"
+    [ testCase "intended" $
+      parseOnly command "Alice follows Bob" @?= (Right $ FOLLOW "Alice" "Bob")
+    , testCase "many space" $
+      parseOnly command "Alice         follows      Bob" @?= (Right $ FOLLOW "Alice" "Bob")
+    ]
+  , testGroup "[WALL]: Alice wall == WALL Alice"
+    [ testCase "intended" $
+      parseOnly command "Alice wall" @?= (Right $ WALL "Alice")
+    , testCase "many space" $
+      parseOnly command "Alice         wall" @?= (Right $ WALL "Alice")
     ]
   --hunit
   ]
