@@ -13,7 +13,8 @@ import           Data.Time.Clock
 import           Data.Attoparsec.Text
 import           Data.Monoid ((<>))
 import qualified Data.Map as M
-import           Data.Map (Map(..))
+import           Data.Map (Map(..), empty)
+import           Control.Monad.State
 
 main :: IO ()
 main = do TIO.putStrLn "Welcome @Twotter"
@@ -28,3 +29,12 @@ twotter = do putStr "> "
              case parseOnly command input
                  of Right c -> print c
                     _       -> TIO.putStrLn "not yet implemented"
+
+test :: Twotter ()
+test = do lift $ putStr "> "
+          x <- get
+          input <- lift TIO.getLine
+          now <- lift getCurrentTime
+          case parseOnly command input
+              of Right c -> lift $ print c
+                 _       -> lift $ TIO.putStrLn "not yet implemented"

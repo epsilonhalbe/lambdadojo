@@ -9,7 +9,8 @@ import qualified Data.Text as T
 import           Control.Lens
 import           Data.Time
 import           Data.Monoid
-import           Data.Map (Map(..))
+import qualified Data.Map as M
+import           Data.Map (Map(..), empty)
 import           Control.Monad.State
 
 type UserName = Text
@@ -31,7 +32,7 @@ data User = User { _userName :: UserName
 
 $(makeLenses ''User)
 
-type Twotter = State (Map UserName User)
+type Twotter = StateT (Map UserName User) IO
 
 displayMessage :: UTCTime -> (UTCTime, Message) -> String
 displayMessage now (timestamp, msg) = show msg <> showTime (diffUTCTime now timestamp)
