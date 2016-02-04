@@ -11,7 +11,6 @@ import qualified Data.Text as T
 import           Data.Char (isSpace)
 import           Twotter (Message(..), User, UserName)
 
-
 data Command = POST {_message :: Message}
              | READ {_userName :: UserName }
              | FOLLOW {_who :: UserName , _whom :: UserName}

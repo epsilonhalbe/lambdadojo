@@ -34,6 +34,7 @@ executable lambdadojo
                      , lambdadojo
                      , attoparsec
                      , containers
+                     , lens
                      , mtl
                      , text
                      , time
