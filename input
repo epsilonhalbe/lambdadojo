@@ -1,0 +1,15 @@
+test -> a
+test -> b
+test -> c
+tost -> a
+tost -> b
+tost -> c
+test -> a
+test -> b
+test
+tost
+test wall
+tost wall
+test follows tost
+test wall
+tost wall

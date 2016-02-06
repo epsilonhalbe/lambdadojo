@@ -16,6 +16,7 @@ import qualified Data.Map as M
 import           Data.Map (Map(..), empty)
 import           Control.Monad.State
 
+
 type UserName = Text
 
 data Message = Message { _author :: UserName
@@ -25,7 +26,6 @@ $(makeLenses ''Message)
 
 instance Show Message where
     show message = T.unpack $ message^.author <> " -> " <> message^.content
-
 
 data User = User { _userName :: UserName
                  , _followers :: Set UserName

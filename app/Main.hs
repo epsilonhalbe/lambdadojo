@@ -45,8 +45,8 @@ test = forever $
        now <- lift getCurrentTime
        case parseOnly command input
            of Right c@POST{..}   ->
-                  do lift $ print c
-                     let u = mempty & messages .~ M.singleton now _message
+                  do let u = mempty & messages .~ M.singleton now _message
+                                    & userName .~ (_message^.author)
                      modify $ M.insertWith (<>) (_message^.author) u
 
               Right c@READ{..}   ->
@@ -81,8 +81,6 @@ test = forever $
                                                     & followers .~ S.singleton _who
                                  modify $ M.insertWith (<>) _who who'
                                  modify $ M.insertWith (<>) _whom whom'
-                                 x <- get
-                                 lift $ print x
 
               _       -> lift $ TIO.putStrLn "not yet implemented"
 
