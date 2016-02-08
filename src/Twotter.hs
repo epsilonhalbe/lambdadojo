@@ -10,10 +10,10 @@ import           Control.Lens
 import           Data.Time
 import           Data.Function (on)
 import           Data.Monoid
-import           Data.Set (Set(..))
+import           Data.Set (Set)
 import qualified Data.Set as S
 import qualified Data.Map as M
-import           Data.Map (Map(..), empty)
+import           Data.Map (Map)
 import           Control.Monad.State
 
 
@@ -53,16 +53,17 @@ displayMessage now timestamp msg = unwords [T.unpack $ msg^.content, showTime (d
 
 showTime :: NominalDiffTime -> String
 showTime s
-       | s < 0*min  = error "future messages are not accepted - yet"
-       | s < 1*min  = "(now)"
-       | s < 2*min  = unwords ["(",show . floor $ s / min,"min ago )"]
-       | s < 1*hour = unwords ["(",show . floor $ s / min,"mins ago )"]
-       | s < 2*hour = unwords ["(",show . floor $ s / hour,"hour ago )"]
-       | s < 1*day  = unwords ["(",show . floor $ s / hour,"hours ago )"]
-       | s < 2*day  = unwords ["(",show . floor $ s / day,"day ago ) "]
-       | s < 7*day  = unwords ["(",show . floor $ s / day,"days ago )"]
+       | s < 0*min' = error "future messages are not accepted - yet"
+       | s < 1*min' = "(now)"
+       | s < 2*min' = unwords ["(",show' $ s / min',"min ago )"]
+       | s < 1*hour = unwords ["(",show' $ s / min',"mins ago )"]
+       | s < 2*hour = unwords ["(",show' $ s / hour,"hour ago )"]
+       | s < 1*day  = unwords ["(",show' $ s / hour,"hours ago )"]
+       | s < 2*day  = unwords ["(",show' $ s / day,"day ago ) "]
+       | s < 7*day  = unwords ["(",show' $ s / day,"days ago )"]
        | otherwise  = "( a long time ago )"
-       where min  = 60
-             hour = 60*min
+       where min' = 60 :: NominalDiffTime
+             hour = 60*min'
              day  = 24*hour
+             show' = show . (floor :: RealFrac a => a -> Int)
 

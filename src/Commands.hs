@@ -1,15 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# OPTIONS_GHC -fno-warn-unused-do-bind #-}
 
 module Commands where
 
 import           Control.Lens
-import           Control.Applicative
 import           Data.Attoparsec.Text as A
 import qualified Data.Text as T
 import           Data.Char (isSpace)
-import           Twotter (Message(..), User, UserName)
+import           Twotter (Message(..), UserName)
 
 data Command = POST {_message :: Message}
              | READ {_userName :: UserName }

@@ -1,4 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports #-}
+
 module Main where
 
 import Data.Attoparsec.Text (parseOnly)
@@ -20,14 +22,17 @@ tests = testGroup "Tests" [properties, unitTests]
 properties :: TestTree
 properties = testGroup "Properties" [scProps, qcProps]
 
+scProps :: TestTree
 scProps = testGroup "(checked by SmallCheck)"
   [--scprop
   ]
 
+qcProps :: TestTree
 qcProps = testGroup "(checked by QuickCheck)"
   [--qcprop
   ]
 
+unitTests :: TestTree
 unitTests = testGroup "Unit tests"
   [ testGroup "[POST]: 'name' -> 'msg' == POST 'name' msg"
     [ testCase "intended" $
